@@ -1,0 +1,71 @@
+JSX Code:
+import React, { useState } from 'react';
+import './App.css';
+
+function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [emojis, setEmojis] = useState([]);
+
+  // Function to handle input change
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Function to filter emojis based on search term
+  const filterEmojis = () => {
+    const filteredEmojis = require('emoji-mart/data/all.json').filter(
+      (emoji) =>
+        emoji.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emoji.keywords.includes(searchTerm.toLowerCase())
+    );
+    setEmojis(filteredEmojis);
+  };
+
+  return (
+    <div className="App">
+      <h1>Emoji Search</h1>
+      <input
+        type="text"
+        placeholder="Search for emojis..."
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyUp={filterEmojis}
+      />
+      <div className="emoji-container">
+        {emojis.map((emoji, index) => (
+          <div key={index} className="emoji">
+            {emoji.native}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+// For Styling, CSS code:
+.App {
+  text-align: center;
+}
+
+input {
+  width: 300px;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.emoji-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.emoji {
+  font-size: 24px;
+  margin: 5px;
+  cursor: pointer;
+}
+
