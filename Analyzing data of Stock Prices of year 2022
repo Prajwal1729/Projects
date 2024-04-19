@@ -1,0 +1,34 @@
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Define the stocks and time period
+stocks = ['AAPL', 'MSFT', 'GOOG']
+start_date = '2020-01-01'
+end_date = '2021-01-01'
+
+# Fetch historical data
+data = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
+
+# Calculate daily returns
+returns = data.pct_change()
+
+# Basic statistics
+statistics = returns.describe()
+
+# Correlation matrix
+correlation = returns.corr()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+for stock in stocks:
+    returns[stock].plot(label=stock)
+plt.title('Stock Prices')
+plt.xlabel('Date')
+plt.ylabel('Price')
+plt.legend()
+plt.show()
+
+# Print statistics
+print("Basic Statistics:\n", statistics)
+print("\nCorrelation Matrix:\n", correlation)
