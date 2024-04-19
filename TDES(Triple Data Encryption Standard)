@@ -1,0 +1,36 @@
+# Creation of own TDES(Triple Data Encryption statndard using python)
+from Crypto.Cipher import DES3
+from Crypto.Random import get_random_bytes
+
+def pad(data):
+    # PKCS7 padding
+    padding_length = 8 - len(data) % 8
+    return data + bytes([padding_length] * padding_length)
+
+def unpad(data):
+    padding_length = data[-1]
+    return data[:-padding_length]
+
+def tdes_encrypt(key, data):
+    cipher = DES3.new(key, DES3.MODE_ECB)
+    padded_data = pad(data)
+    return cipher.encrypt(padded_data)
+
+def tdes_decrypt(key, data):
+    cipher = DES3.new(key, DES3.MODE_ECB)
+    decrypted_data = cipher.decrypt(data)
+    return unpad(decrypted_data)
+
+# Example:
+if __name__ == "__main__":
+    # Generate a random 24-byte key
+    key = get_random_bytes(24)
+    plaintext = b"Hello, world!"
+    
+    # Encryption
+    ciphertext = tdes_encrypt(key, plaintext)
+    print("Encrypted:", ciphertext.hex())
+
+    # Decryption
+    decrypted_text = tdes_decrypt(key, ciphertext)
+    print("Decrypted:", decrypted_text.decode('utf-8'))
