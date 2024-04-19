@@ -1,0 +1,33 @@
+-- Create a database
+CREATE DATABASE IF NOT EXISTS student_db;
+
+-- Use the created database
+USE student_db;
+
+-- Create a table for storing student information
+CREATE TABLE IF NOT EXISTS students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    date_of_birth DATE,
+    address VARCHAR(255)
+);
+
+-- Create a table for storing course information
+CREATE TABLE IF NOT EXISTS courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100),
+    course_code VARCHAR(20),
+    description TEXT
+);
+
+-- Create a table for mapping students to courses (many-to-many relationship)
+CREATE TABLE IF NOT EXISTS student_courses (
+    student_id INT,
+    course_id INT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
+    PRIMARY KEY (student_id, course_id)
+);
