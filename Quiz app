@@ -1,0 +1,144 @@
+HTML CODE:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Quiz App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="question-container">
+      <h2 id="question"></h2>
+    </div>
+    <div class="options-container">
+      <button class="option" onclick="checkAnswer(this)"></button>
+      <button class="option" onclick="checkAnswer(this)"></button>
+      <button class="option" onclick="checkAnswer(this)"></button>
+      <button class="option" onclick="checkAnswer(this)"></button>
+    </div>
+    <div class="result-container">
+      <p id="result"></p>
+      <button onclick="nextQuestion()">Next Question</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+# CSS Code:
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.quiz-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.question-container {
+  padding: 20px;
+}
+
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.option {
+  width: 45%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  border: none;
+  cursor: pointer;
+}
+
+.result-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.result-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.result-container button:hover {
+  background-color: #0056b3;
+}
+
+JavaScript Code:
+// script.js
+const questions = [
+  {
+    question: "What does HTML stand for?",
+    options: ["Hyper Text Markup Language", "Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup"],
+    answer: "Hyper Text Markup Language"
+  },
+  {
+    question: "What does CSS stand for?",
+    options: ["Cascading Style Sheets", "Creative Style Sheets", "Colorful Style Sheets", "Computer Style Sheets"],
+    answer: "Cascading Style Sheets"
+  },
+  {
+    question: "What does React Js do?",
+    options: ["Styling", "Builds User Interface", "Data Storage", "Server-Side Processing"],
+    answer: "Builds User Interface"
+  }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionElement = document.getElementById('question');
+const optionsElements = document.querySelectorAll('.option');
+const resultElement = document.getElementById('result');
+
+function displayQuestion() {
+  const currentQuestion = questions[currentQuestionIndex];
+  questionElement.textContent = currentQuestion.question;
+  optionsElements.forEach((option, index) => {
+    option.textContent = currentQuestion.options[index];
+  });
+}
+
+function checkAnswer(option) {
+  const selectedAnswer = option.textContent;
+  const currentQuestion = questions[currentQuestionIndex];
+  if (selectedAnswer === currentQuestion.answer) {
+    score++;
+    resultElement.textContent = "Correct!";
+  } else {
+    resultElement.textContent = "Incorrect!";
+  }
+  option.disabled = true;
+}
+
+function nextQuestion() {
+  if (currentQuestionIndex < questions.length - 1) {
+    currentQuestionIndex++;
+    resultElement.textContent = "";
+    displayQuestion();
+    optionsElements.forEach(option => {
+      option.disabled = false;
+    });
+  } else {
+    resultElement.textContent = `Quiz completed! Your score: ${score}/${questions.length}`;
+  }
+}
+
+// Display the first question when the page loads
+displayQuestion();
+
+
