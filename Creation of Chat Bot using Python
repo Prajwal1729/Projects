@@ -1,0 +1,23 @@
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+# Create a chatbot instance
+chatbot = ChatBot('MyChatBot')
+
+# Create a new trainer for the chatbot
+trainer = ChatterBotCorpusTrainer(chatbot)
+
+# Train the chatbot based on the english corpus
+trainer.train('chatterbot.corpus.english')
+
+# You can also train the chatbot with your custom dataset
+# trainer.train('path/to/your/custom/dataset.yml')
+
+# Start interacting with the chatbot
+print("You can start talking to the chatbot (type 'exit' to end):")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == 'exit':
+        break
+    response = chatbot.get_response(user_input)
+    print("Bot:", response)
