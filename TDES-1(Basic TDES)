@@ -1,0 +1,30 @@
+# Peform the code in google colab:
+# !pip install DES
+# !pip install pycryptodome
+
+#code:
+from Crypto.Cipher import DES3
+from Crypo.Random import get_random_bytes
+
+while True:
+   try:
+    key = DES3.adjust_key_parity(get_random_bytes(24))
+   except ValueError:
+    pass
+
+def encrypt(msg):
+   cipher = DES3.new(key,DES3.MODE_EAX)
+   nonce = cipher.nonce
+   ciphertext = cipher.encrpty(msg.encode("ascii))
+   return nonce,ciphertext
+
+def decrypt(nonce,msg):
+   cipher = DES3.new(key,DES3.MODE_EAX,nonce=nonce)
+   plaintext = cipher.decrypt(ciphertext)
+   return plaintext.decode("ascii)
+
+nonce,ciphertext = encrypt(input("Enter the password"))
+plaintext = decrypt(nonce,ciphertext)
+
+print(f"Cipher Text: {ciphertext})
+print(f"Plain Text: {plaintext})
